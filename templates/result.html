@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/jquery-ui.css">
     <link rel="stylesheet" href="../static/css/chartist.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.2/css/bulma.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="../static/js/chartist.js"></script>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="../static/js/jquery-3.2.1.min.js" ></script>
@@ -18,10 +20,14 @@
       body{
         background-color: #EADBC4;
       }
+      h1{
+        color: #000000;
+        font-size: 30px;
+      }
       nav {
         color: #ffffff;
         font-size: 30px;
-        margin: 50px 0px !important;
+        margin: 10px 0px !important;
       }
       .panel-head{
         color: #ffffff;
@@ -33,8 +39,8 @@
         margin:50px 0px !important;
       }
       .chart{
-        height:300px;
-        margin: 50px 0px;
+        height:400px;
+        margin: 10px 0px;
       }
       #summary p{
         font-size: 20px;
@@ -45,12 +51,17 @@
     </style>
   </head>
   <body>
+    <div class="container box">
+      <div class="row text-center">
+        <h1> Analysis Dashbord</h1>
+      </div>
+    </div>
     <div class="container">
       <div class="row">
         <!-- start naviagtion column -->
-        <div class="col-md-2 text-center">
+        <div class="col-md-3 text-center box">
           <div class="row">
-            <div class="panel panel-info margin-head">
+            <div class="panel panel-info">
               <div class="panel-body panel-head">Overviews</div>
               <div class="panel-footer">
                 <p>Summary of the data.</p>
@@ -58,26 +69,20 @@
             </div>
           </div>
           <div class="row">
-            <div class="panel panel-info margin-head">
+            <div class="panel panel-info">
               <div class="panel-body panel-head">Details</div>
               <div class="panel-footer">
-                <p>Visualized data in details.</p>
-                <ul class="list-group text-left" id="detail">
-                  <li class="list-group-item" value="hour">By Hour</li>
-                  <li class="list-group-item" value="day">By Day</li>
-                  <li class="list-group-item" value="week">By Week</li>
-                  <li class="list-group-item" value="mounth">By Mounth</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="panel panel-info margin-head">
-              <div class="panel-body panel-head">Datetime</div>
-              <div class="panel-footer">
+                <h3>Visualized data in details.</h3>
+                <p>Select method.</p>
+                <select class="list-group text-left" id="detail">
+                  <option class="list-group-item" value="hour">By Hour</option>
+                  <option class="list-group-item" value="day">By Day</option>
+                  <option class="list-group-item" value="week">By Week</option>
+                  <option class="list-group-item" value="mounth">By Mounth</option>
+                </select>
                 <p>Select date.</p>
                 <input id="datepicker">
-                <input type="submit" value="submit">
+                <input type="submit" class="btn" value="Reflesh">
               </div>
             </div>
           </div>
@@ -85,18 +90,22 @@
         <!-- end naviagtion column -->
 
         <!-- start image column -->
-        <div class="col-md-offset-1 col-md-9 text-center">
-          <div class="row">
-            <div id="summary" style="height:100px;margin: 50px 0px;"></div>
+        <div class="col-md-offset-1 col-md-8 text-center">
+          <div class="row box">
+            <div id="summary" style="height:100px;"></div>
           </div>
-          <div class="row">
+          <div class="row box">
+            <h1>Top-10-Users:</h1>
             <div id="topUserBar" class="chart" ></div>
+
           </div>
-          <div class="row">
-              <div id="topItemSales"  class="chart" ></div>
+          <div class="row box">
+            <h1>Top-10-Items-in-sales:</h1>
+            <div id="topItemSales"  class="chart" ></div>
           </div>
-          <div class="row">
-              <div id="topItemValues"  class="chart" ></div>
+          <div class="row box">
+            <h1>Top-10-Items-in-sales-incomes:</h1>
+            <div id="topItemValues"  class="chart" ></div>
           </div>
         </div>
         <!-- start image column -->
@@ -114,7 +123,7 @@
           summary.top_10_user_cost
         ]
       }, {
-        seriesBarDistance: 100000,
+        seriesBarDistance: 10,
         reverseData: true,
         horizontalBars: true,
         axisY: {
@@ -127,9 +136,8 @@
           summary.top_10_sales_sales
         ]
       }, {
-        seriesBarDistance: 100000,
-        reverseData: true,
-        horizontalBars: true,
+        seriesBarDistance: 10,
+        horizontalBars: false,
         axisY: {
           offset: 70
         }
@@ -140,8 +148,7 @@
           summary.top_10_value_values
         ]
       }, {
-        seriesBarDistance: 100000,
-        reverseData: true,
+        seriesBarDistance: 10,
         horizontalBars: false,
         axisY: {
           offset: 70

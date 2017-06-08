@@ -35,11 +35,8 @@
         font-size: 30px;
         padding:10px 0px !important;
       }
-      .margin-head{
-        margin:50px 0px !important;
-      }
       .chart{
-        height:400px;
+        height: 400px;
         margin: 10px 0px;
       }
       #summary p{
@@ -59,30 +56,46 @@
     <div class="container">
       <div class="row">
         <!-- start naviagtion column -->
-        <div class="col-md-3 text-center box">
-          <div class="row">
+        <div class="col-md-3 text-center">
+          <div class="row box">
             <div class="panel panel-info">
               <div class="panel-body panel-head">Overviews</div>
               <div class="panel-footer">
-                <p>Summary of the data.</p>
+                <div  class="control-label">
+                  <label class="label">Summary of the data.</label>
+                </div>
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row box">
             <div class="panel panel-info">
               <div class="panel-body panel-head">Details</div>
               <div class="panel-footer">
-                <h3>Visualized data in details.</h3>
-                <p>Select method.</p>
-                <select class="list-group text-left" id="detail">
-                  <option class="list-group-item" value="hour">By Hour</option>
-                  <option class="list-group-item" value="day">By Day</option>
-                  <option class="list-group-item" value="week">By Week</option>
-                  <option class="list-group-item" value="mounth">By Mounth</option>
-                </select>
-                <p>Select date.</p>
-                <input id="datepicker">
-                <input type="submit" class="btn" value="Reflesh">
+                <div  class="control-label">
+                  <label class="label">Visualized data in details.</label>
+                </div>
+                <div class="control is-horizontal">
+                  <div  class="control-label">
+                    <label class="label">Method:</label>
+                  </div>
+                  <div class="control">
+                    <div  class="select is-fullwidth">
+                      <select id="detail">
+                        <option value="Hour">Hour</option>
+                        <option value="Day">Day</option>
+                        <option value="Week">Week</option>
+                        <option value="Month">Month</option>
+                        <option value="Quarter">Quarter</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div  class="control-label">
+                  <label class="label">Date:</label>
+                </div>
+                <input class="select is-fullwidth" id="datepicker">
+                <div style="padding-top:10px"></div>
+                <input type="submit" class="button is-primary" value="Refresh">
               </div>
             </div>
           </div>
@@ -100,11 +113,11 @@
 
           </div>
           <div class="row box">
-            <h1>Top-10-Items(sales):</h1>
+            <h1>Top-10-Items(Sales):</h1>
             <div id="topItemSales"  class="chart" ></div>
           </div>
           <div class="row box">
-            <h1>Top-10-Items(incomes):</h1>
+            <h1>Top-10-Items(Incomes):</h1>
             <div id="topItemValues"  class="chart" ></div>
           </div>
         </div>

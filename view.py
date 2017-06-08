@@ -10,6 +10,7 @@ import time
 import numpy as np
 import pandas as pd
 from flask import Flask
+from flask import redirect
 from flask import request
 from flask import render_template
 from flask import jsonify
@@ -28,7 +29,7 @@ def index():
         file = request.files['upfile']
         if file.filename.endswith(".csv"):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], "temp.csv"))
-            return "upload success"
+            return redirect('/result')
         else:
             return '''
             <!doctype html>

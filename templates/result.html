@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="../static/css/jquery-ui.css">
     <link rel="stylesheet" href="../static/css/chartist.css">
     <link rel="stylesheet" href="../static/css/bulma.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/font-awesome.css">
     <script src="../static/js/chartist.js"></script>
-    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <!-- jQuery first, then Bootstrap JS. -->
     <script src="../static/js/jquery-3.2.1.min.js" ></script>
+    <script src="../static/js/vue.js"></script>
     <script src="../static/js/jquery-ui.js" ></script>
     <script src="../static/js/bootstrap.min.js"></script>
     <style>
@@ -61,9 +62,21 @@
             <div class="panel panel-info">
               <div class="panel-body panel-head">Overviews</div>
               <div class="panel-footer">
-                <div  class="control-label">
-                  <label class="label">Summary of the data.</label>
+                <div class="control is-horizontal">
+                  <div  class="control-label">
+                    <label class="label">Category:</label>
+                  </div>
+                  <div class="control">
+                    <div  class="select is-fullwidth">
+                      <select id="category">
+                        <option value="charge" selected>Charge</option>
+                        <option value="purchase">Purchase</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
+                <div style="padding-top:10px"></div>
+                <input type="submit" class="button is-primary" value="Refresh">
               </div>
             </div>
           </div>
@@ -75,7 +88,7 @@
                   <label class="label">Visualized data in details.</label>
                 </div>
                 <div class="control is-horizontal">
-                  <div  class="control-label">
+                  <div  class="control-label ">
                     <label class="label">Time interval:</label>
                   </div>
                   <div class="control">
@@ -105,7 +118,14 @@
         <!-- start image column -->
         <div class="col-md-offset-1 col-md-8 text-center">
           <div class="row box">
-            <div id="summary" style="height:100px;"></div>
+            <div id="summary" style="height:100px;">
+              <ul class="text-left">
+                <li v-for="todo in todos">
+                  <b><% todo.head %><b>
+                     <% todo.text %>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="row box">
             <h1>Top-10-Users:</h1>
@@ -124,63 +144,110 @@
         <!-- start image column -->
     </div>
     <script>
-      var summary = {{ summary | safe }};
-      var sumText = [];
-      sumText.push("<p>"+"Total number of users: "+summary.nb_user+"</p>");
-      sumText.push("<p>"+"Total types of items: "+summary.nb_items+"</p>");
-      sumText.push("<p>"+"Total sales value: "+summary.total_cost+"</p>");
-      $("#summary").append(sumText);
-      new Chartist.Bar('#topUserBar', {
-        labels: summary.top_10_user,
-        series: [
-          summary.top_10_user_cost
-        ]
-      }, {
-        seriesBarDistance: 10,
-        reverseData: true,
-        horizontalBars: true,
-        axisY: {
-          offset: 50
-        },
-        axisX: {
-          offset: 100
-        }
-      });
-      new Chartist.Bar('#topItemSales', {
-        labels: summary.top_10_sales_item,
-        series: [
-          summary.top_10_sales_sales
-        ]
-      }, {
-        seriesBarDistance: 10,
-        horizontalBars: false,
-        axisY: {
-          offset: 50
-        },
-        axisX: {
-          offset: 100
-        }
-      });
-      new Chartist.Bar('#topItemValues', {
-        labels: summary.top_10_value_item,
-        series: [
-          summary.top_10_value_values
-        ]
-      }, {
-        seriesBarDistance: 10,
-        horizontalBars: false,
-        axisY: {
-          offset: 50
-        },
-        axisX: {
-          offset: 100
-        }
-      });
-    </script>
+      // change Vue default delimiters
+      Vue.options.delimiters = ["<%","%>"];
 
-    <script>
+      var buildViews = function(data){
+        var sumText = [
+                        { head: 'User Numbers :  ', text:data.nb_user},
+                        { head: 'Items :  ', text:data.nb_items},
+                        { head: 'Sales Income :  ', text:data.total_cost},
+                      ]
+        sumView = new Vue({
+          el: '#summary',
+          data: {
+            todos:sumText,
+          },
+        });
+        topUserBar = new Chartist.Bar('#topUserBar', {
+          labels: data.top_10_user,
+          series: [
+            data.top_10_user_cost
+          ]
+        }, {
+          seriesBarDistance: 10,
+          reverseData: true,
+          horizontalBars: true,
+          axisY: {
+            offset: 50
+          },
+          axisX: {
+            offset: 100,
+            scaleMinSpace: 100,
+          }
+        });
+        topItemSales = new Chartist.Bar('#topItemSales', {
+          labels: data.top_10_sales_item,
+          series: [
+            data.top_10_sales_sales
+          ]
+        }, {
+          seriesBarDistance: 10,
+          horizontalBars: false,
+          axisY: {
+            offset: 50
+          },
+          axisX: {
+            offset: 100
+          }
+        });
+        topItemValues = new Chartist.Bar('#topItemValues', {
+          labels: data.top_10_value_item,
+          series: [
+            data.top_10_value_values
+          ]
+        }, {
+          seriesBarDistance: 10,
+          horizontalBars: false,
+          axisY: {
+            offset: 50
+          },
+          axisX: {
+            offset: 100
+          }
+        });
+      };
+      // var summary = {{ summary | safe }};
+      // buildViews(summary);
+      var updateViews = function(data){
+        var newText = [
+                        { head: 'User Numbers :  ', text:data.nb_user},
+                        { head: 'Items :  ', text:data.nb_items},
+                        { head: 'Sales Income :  ', text:data.total_cost},
+                      ]
+        sumView.todos = newText;
+        topUserBar.update({
+          labels: data.top_10_user,
+          series: [
+            data.top_10_user_cost
+          ]
+        })
+        topItemSales.update({
+          labels: data.top_10_sales_item,
+          series: [
+            data.top_10_sales_sales
+          ]
+        });
+        topItemValues.update({
+          labels: data.top_10_value_item,
+          series: [
+            data.top_10_value_values
+          ]
+        });
+      }
+
       $(document).ready(function() {
         $("#dateOne").datepicker();
+        $.ajax('./update', {
+          data: {'category': "charge"},
+          dataType: 'json',
+          success: function (data){
+            // update utc_id
+            var summary = data.summary;
+            buildViews(summary);
+            console.log('Build visualization');
+          }
+        });
       });
       $("#interval").change(function(){
           if ($("#interval").val() == "Hour" || $("#interval").val() == "Day"){
@@ -196,6 +263,31 @@
             }
           }
         });
+      $("#category").change(function(){
+        if ($("#category").val() == "charge"){
+          $.ajax('./update', {
+            data: {'category': "charge"},
+            dataType: 'json',
+            success: function (data){
+              // update utc_id
+              var summary = data.summary;
+              updateViews(summary);
+              console.log('Update visualization');
+            }
+          });
+        }else{
+          $.ajax('./update', {
+            data: {'category': "purchase"},
+            dataType: 'json',
+            success: function (data){
+              // update utc_id
+              var summary = data.summary;
+              updateViews(summary);
+              console.log('Update visualization');
+            }
+          });
+        }
+      })
     </script>
   </body>
 </html>

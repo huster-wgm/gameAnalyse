@@ -4,26 +4,44 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashbord</title>
+    <title>Dashbord-upload-files</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/bulma.css">
+    <link rel="stylesheet" href="../static/css/font-awesome.css">
+    <!-- jQuery first, then Bootstrap JS. -->
+    <script src="../static/js/jquery-3.2.1.min.js" ></script>
+
+    <style>
+      body{
+        background-color: #EADBC4;
+      }
+      .middle{
+        height: 500px;
+        padding-top: 200px;
+        margin: auto auto;
+        text-align: center;
+      }
+      .empty-head{
+        height: 200px;
+      }
+    </style>
   </head>
   <body>
+    <div class="empty-head"></div>
     <div class="container">
-      <div class="row">
-        <h1>Upload File</h1>
-      </div>
-      <div class="row">
-        <form action="" method="post" enctype="multipart/form-data">
-            <input type="file" name="upfile"><br>
-            <input type="submit" value="Upload">
-        </form>
+      <div class="columns is-desktop">
+        <div class="column is-one-third is-offset-one-third box">
+          <div class="middle">
+            <form action="" method="post" enctype="multipart/form-data">
+                <input class="button is-halfwidth" type="file" name="upfile"><br>
+                <div style="padding-top:20px"></div>
+                <input type="submit" class="button is-primary" value="Upload">
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="../static/js//jquery-3.2.1.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/Chart.bundle.js"></script>
+    <div>
+    </div>
   </body>
 </html>

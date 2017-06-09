@@ -1,0 +1,5 @@
+# depenency for the app
+Flask==0.12.2
+Flask-Cors==3.0.2
+pandas==0.20.1 
+numpy==1.12.1
